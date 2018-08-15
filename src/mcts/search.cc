@@ -696,7 +696,7 @@ void SearchWorker::ExtendNode(Node* node) {
       node->MakeTerminal(GameResult::DRAW);
       return;
     }
-    
+
     // Neither by-position or by-rule termination, but maybe it's a TB position.
     if (search_->syzygy_tb_ && board.castlings().no_legal_castle() &&
         history_.Last().GetNoCapturePly() == 0 &&
@@ -707,11 +707,11 @@ void SearchWorker::ExtendNode(Node* node) {
       if (state == OK) {
         // If the colors seem backwards, check the checkmate check above.
         if (wdl == WDL_WIN) {
-          node->MakeTerminal(GameResult::BLACK_WON);
+          node->MakeTbResult(GameResult::BLACK_WON);
         } else if (wdl == WDL_LOSS) {
-          node->MakeTerminal(GameResult::WHITE_WON);
+          node->MakeTbResult(GameResult::WHITE_WON);
         } else { // Cursed wins and blessed losses count as draws.
-          node->MakeTerminal(GameResult::DRAW); 
+          node->MakeTbResult(GameResult::DRAW);
         }
         search_->tb_hits_.fetch_add(1, std::memory_order_acq_rel);
         return;

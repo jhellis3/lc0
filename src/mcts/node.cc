@@ -179,6 +179,17 @@ void Node::MakeTerminal(GameResult result) {
   }
 }
 
+void Node::MakeTbResult(GameResult result) {
+  if (result == GameResult::DRAW) {
+    q_ = 0.0f;
+  } else if (result == GameResult::WHITE_WON) {
+    q_ = 0.999f;
+  } else if (result == GameResult::BLACK_WON) {
+    q_ = -0.999f;
+  }
+}
+
+
 bool Node::TryStartScoreUpdate() {
   if (n_ == 0 && n_in_flight_ > 0) return false;
   ++n_in_flight_;
